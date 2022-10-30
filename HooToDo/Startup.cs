@@ -1,7 +1,11 @@
 ﻿using HooToDo.Domain.Models.ToDo;
 using HooToDo.Domain.Models.User;
 using HooToDo.Infrastructure;
+using HooToDo.ServiceExtenstions;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace HooToDo
@@ -36,7 +40,7 @@ namespace HooToDo
                 options.UseSqlServer(connectionString);
             });
 
-            services.AddIdentity<UserModel, IdentityRole<Guid>>(options =>
+            services.AddIdentitySetup<UserModel, IdentityRole<Guid>>(options =>
             {
                 options.SignIn.RequireConfirmedEmail = false;
                 options.SignIn.RequireConfirmedAccount = false;
@@ -48,9 +52,11 @@ namespace HooToDo
                 options.Password.RequiredUniqueChars = 0;
                 options.Password.RequireUppercase = false;
                 options.Password.RequireLowercase = false;
+
             })
                 .AddEntityFrameworkStores<ToDoContext>()
                 .AddDefaultTokenProviders();
+            
         }
         public void Configure(WebApplication app, IWebHostEnvironment env)
         {
@@ -69,7 +75,6 @@ namespace HooToDo
 
             app.UseAuthentication();
             app.UseAuthorization();
-
 
             app.MapControllers();
 

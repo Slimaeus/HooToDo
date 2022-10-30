@@ -2,6 +2,7 @@
 using HooToDo.Domain.Models.ToDo;
 using HooToDo.Domain.Models.User;
 using HooToDo.Infrastructure;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;

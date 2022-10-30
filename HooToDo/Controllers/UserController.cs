@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using HooToDo.Domain.Models.User;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
@@ -51,6 +52,18 @@ namespace HooToDo.Controllers
             if (createResult.Succeeded)
                 return CreatedAtAction(nameof(Authorize), new { user.UserName });
             return BadRequest();
+        }
+        [Authorize]
+        [HttpGet("signout")]
+        public async Task<IActionResult> Singout() 
+        {
+            await _signInManager.SignOutAsync();
+            return SignOut();
+        }
+        [HttpGet("unauthorized")]
+        public IActionResult UnauthorizedAction()
+        {
+            return StatusCode(StatusCodes.Status401Unauthorized);
         }
 
 
